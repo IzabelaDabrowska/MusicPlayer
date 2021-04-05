@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from "react";
-import { View, StyleSheet, FlatList, Text, TextInput, Dimensions } from 'react-native';
+import { View, StyleSheet, FlatList, Button, TextInput, Dimensions } from 'react-native';
 import AppLoading from 'expo-app-loading';
 import {useFonts} from 'expo-font';
 
@@ -10,7 +10,7 @@ let customFonts = {
   'Roboto-Regular': require('../../assets/fonts/Roboto-Regular.ttf'),
 };
 
-function SearchScreen() {
+function SearchScreen({ navigation }) {
   const [query, setQuery] = useState('');
   const [artistsList, setArtistsList] = useState([]);
 
@@ -45,9 +45,13 @@ function SearchScreen() {
 
   const ItemView = ({ item }) => {
     return (
-      <Text style={styles.itemStyle}>
-        {item.name}
-      </Text>
+      <Button 
+        style={styles.itemStyle}
+        title={item.name}
+        color='#ffffff'
+        onPress={() => navigation.navigate('ArtistScreen')}
+      >
+      </Button>
     );
   };
   let [fontsLoaded] = useFonts({
@@ -95,7 +99,6 @@ const styles = StyleSheet.create({
     paddingTop: 28,
   },
   itemStyle: {
-    color: '#ffffff',
     fontSize: 20,
     textAlign: 'center',
     lineHeight: 58,

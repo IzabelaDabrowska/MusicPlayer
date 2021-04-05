@@ -3,18 +3,10 @@ import { Button, View, Text, StyleSheet, SafeAreaView, Dimensions } from 'react-
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import SearchScreen from './components/SearchScreen/SearchScreen';
+import ArtistScreen from './components/ArtistScreen/ArtistScreen';
 
 const width = Dimensions.get("window").width
 const height = Dimensions.get("window").height
-
-function DetailsScreen() {
-  return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <Text>Details Screen</Text>
-    </View>
-  );
-}
-
 const Stack = createStackNavigator();
 
 function App() {
@@ -32,7 +24,19 @@ function App() {
               }
             }}
           />
-          <Stack.Screen name="Details" component={DetailsScreen} />
+          <Stack.Screen 
+            name="ArtistScreen" 
+            component={ArtistScreen} 
+            options={{
+              headerTransparent: true,
+              headerTitle: false,
+              headerBackTitleVisible: false,
+              headerTintColor: '#ffffff',
+              cardStyle: {
+                backgroundColor: 'transparent',
+              }
+            }}
+          />
         </Stack.Navigator>
       </NavigationContainer>
     </SafeAreaView>
