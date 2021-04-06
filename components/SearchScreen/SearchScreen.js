@@ -12,16 +12,16 @@ let customFonts = {
 
 function SearchScreen({ navigation }) {
   const [query, setQuery] = useState('');
-  const [artistsList, setArtistsList] = useState([]);
+  const [searchList, setSearchList] = useState([]);
 
   useEffect(() => {
     if (query === "") {
       return;
     }
-    fetchArtists();
+    fetchSearch();
   },[query])
 
-  const fetchArtists = () => {
+  const fetchSearch = () => {
     let artists = [];
     let songs = [];
     fetch(`https://genius.p.rapidapi.com/search?q=${query}`, {
@@ -41,7 +41,7 @@ function SearchScreen({ navigation }) {
         }
       })
       const combined = artists.concat(songs);
-      setArtistsList(combined);
+      setSearchList(combined);
     })
     .catch(err => {
       console.error(err);
@@ -83,7 +83,7 @@ function SearchScreen({ navigation }) {
     <View style={styles.containerWrapper}>
       <TextInput style={styles.searchInput} placeholder={'Search...'} placeholderTextColor="#ffffff" onChangeText={setQuery}/>
       <View style={styles.listWrapper}>
-        <FlatList data={artistsList} renderItem={ItemView} keyExtractor={(item) => item.id.toString()} />
+        <FlatList data={searchList} renderItem={ItemView} keyExtractor={(item) => item.id.toString()} />
       </View>
     </View>
     )

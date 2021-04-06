@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Button, View, Text, StyleSheet, SafeAreaView, Dimensions } from 'react-native';
+import { StyleSheet, SafeAreaView, Dimensions } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import SearchScreen from './components/SearchScreen/SearchScreen';
