@@ -4,6 +4,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import SearchScreen from './components/SearchScreen/SearchScreen';
 import ArtistScreen from './components/ArtistScreen/ArtistScreen';
+import SongScreen from './components/SongScreen/SongScreen';
 
 const width = Dimensions.get("window").width
 const height = Dimensions.get("window").height
@@ -27,6 +28,19 @@ function App() {
           <Stack.Screen 
             name="ArtistScreen" 
             component={ArtistScreen} 
+            options={{
+              headerTransparent: true,
+              headerTitle: false,
+              headerBackTitleVisible: false,
+              headerTintColor: '#ffffff',
+              cardStyle: {
+                backgroundColor: 'transparent',
+              }
+            }}
+          />
+          <Stack.Screen 
+            name="SongScreen" 
+            component={SongScreen} 
             options={{
               headerTransparent: true,
               headerTitle: false,

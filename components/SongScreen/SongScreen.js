@@ -4,12 +4,12 @@ import { View, StyleSheet, Dimensions, Text } from 'react-native';
 const width = Dimensions.get("window").width
 const height = Dimensions.get("window").height
 
-function ArtistScreen({ route }) {
-  const { artistId } = route.params;
+function SongScreen({ route }) {
+  const { songId } = route.params;
 
   return (
     <View style={styles.containerWrapper}>
-      <Text style={styles.showText}>{artistId}</Text>
+      <Text style={styles.showText}>{songId}</Text>
     </View>
   )
 }
@@ -29,4 +29,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default ArtistScreen;
+export default SongScreen;

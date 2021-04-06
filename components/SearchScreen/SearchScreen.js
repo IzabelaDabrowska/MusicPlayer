@@ -23,6 +23,7 @@ function SearchScreen({ navigation }) {
 
   const fetchArtists = () => {
     let artists = [];
+    let songs = [];
     fetch(`https://genius.p.rapidapi.com/search?q=${query}`, {
       "method": "GET",
       "headers": {
@@ -32,15 +33,31 @@ function SearchScreen({ navigation }) {
     })
     .then(response => response.json()).then(json => {
       Array.prototype.forEach.call(json.response.hits,(el) => {
+        songs.push({id:el.result.id, name:el.result.title, type:'song'});
+      
+        // add artist to the list if it's not already in there
         if (artists.filter(e => e.id === el.result.primary_artist.id).length === 0) {
-          artists.push({id:el.result.primary_artist.id, name:el.result.primary_artist.name});
+          artists.push({id:el.result.primary_artist.id, name:el.result.primary_artist.name, type:'artist'});
         }
       })
-      setArtistsList(artists);
+      const combined = artists.concat(songs);
+      setArtistsList(combined);
     })
     .catch(err => {
       console.error(err);
     });
+  }
+
+  const navigateToScreen = (item) => {
+    if (item.type === 'artist') {
+      navigation.navigate('ArtistScreen', {
+        artistId: item.id,
+      })
+      return;
+    } 
+    navigation.navigate('SongScreen', {
+      songId: item.id,
+    })
   }
 
   const ItemView = ({ item }) => {
@@ -49,7 +66,7 @@ function SearchScreen({ navigation }) {
         style={styles.itemStyle}
         title={item.name}
         color='#ffffff'
-        onPress={() => navigation.navigate('ArtistScreen')}
+        onPress={() => navigateToScreen(item)}
       >
       </Button>
     );
