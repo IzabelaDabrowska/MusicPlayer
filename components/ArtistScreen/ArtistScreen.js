@@ -1,6 +1,8 @@
 import { LinearGradient } from "expo-linear-gradient";
 import React, {useState, useEffect, useRef} from "react";
 import { View, StyleSheet, Dimensions, Text, FlatList, Image, ImageBackground } from 'react-native';
+import AppLoading from 'expo-app-loading';
+import {useFonts} from 'expo-font';
 
 const width = Dimensions.get("window").width;
 const height = Dimensions.get("window").height;
@@ -41,7 +43,7 @@ function ArtistScreen({ route }) {
     }
   })
 
-  const listHeader = (artistName,artistImage) => {
+  const listHeader = (artistName, artistImage) => {
     return (
       <View style={styles.headerBox}>
         <Text style={styles.artistName}>{artistName}</Text>
@@ -50,29 +52,40 @@ function ArtistScreen({ route }) {
     )
   }
 
-  return (
-    <View style={styles.containerWrapper}>
-      <ImageBackground source={{uri:artistImage}} style={styles.backgroundImg}>
-        <LinearGradient colors={['rgba(26, 23, 32, 0.77)', '#1A1720', '#1A1720']} style={styles.backgroundGradient}>
-          <FlatList
+  const songList = ({item}) => {
+    return (
+      <View style={styles.songList}>
+        <Image style={styles.songImg} source={{uri:item.header_image_url}}/>
+        <Text style={styles.songTitle}>{(item.title)}</Text>
+      </View>
+    )
+  }
+
+  let [fontsLoaded] = useFonts({
+    'Roboto-Black': require('../../assets/fonts/Roboto-Black.ttf'),
+    'Roboto-Italic': require('../../assets/fonts/Roboto-Italic.ttf'),
+  });
+
+  if (!fontsLoaded) {
+    return <AppLoading />;
+  } else {
+    return (
+      <View style={styles.containerWrapper}>
+        <ImageBackground source={{uri:artistImage}} style={styles.backgroundImg}>
+          <LinearGradient colors={['rgba(26, 23, 32, 0.77)', '#1A1720', '#1A1720']} style={styles.backgroundGradient}>
+            <FlatList
               data={artistSongs}
               ListHeaderComponent={listHeader(artistName, artistImage)}
-              renderItem={({ item }) => {
-                return (
-                  <View style={styles.songList}>
-                    <Image source={{uri:item.header_image_url}} style={styles.songImg}/>
-                    <Text style={styles.songTitle}>{(item.full_title)}</Text>
-                  </View>
-                );
-              }}
+              ListHeaderComponentStyle={{marginBottom:50}}
+              renderItem={songList}
               keyExtractor={(item) => item.id.toString()}
             >
-              
             </FlatList>
-        </LinearGradient>
-      </ImageBackground>
-    </View>
-  )
+          </LinearGradient>
+        </ImageBackground>
+      </View>
+    )
+  }
 }
 
 const styles = StyleSheet.create({
@@ -100,7 +113,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'flex-end',
   },
-  artistName: {
+  artistName: {    
+    fontFamily: 'Roboto-Black',
+    letterSpacing: 3,
     color: '#ffffff',
     fontSize: 64,
     lineHeight: 75,
@@ -117,8 +132,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'flex-start',
     paddingHorizontal: 40,
+    paddingBottom: 50,
   },
   songTitle: {
+    fontFamily: 'Roboto-Italic',
     marginLeft: 15,
     color: '#ffffff',
     fontSize: 14,

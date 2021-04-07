@@ -6,10 +6,6 @@ import {useFonts} from 'expo-font';
 const width = Dimensions.get("window").width
 const height = Dimensions.get("window").height
 
-let customFonts = {
-  'Roboto-Regular': require('../../assets/fonts/Roboto-Regular.ttf'),
-};
-
 function SearchScreen({ navigation }) {
   const [query, setQuery] = useState('');
   const [searchList, setSearchList] = useState([]);
