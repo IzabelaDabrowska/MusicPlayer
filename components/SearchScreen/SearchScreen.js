@@ -31,7 +31,8 @@ function SearchScreen({ navigation }) {
         "x-rapidapi-host": "genius.p.rapidapi.com"
       }
     })
-    .then(response => response.json()).then(json => {
+    .then(response => response.json())
+    .then(json => {
       Array.prototype.forEach.call(json.response.hits,(el) => {
         songs.push({id:el.result.id, name:el.result.title, type:'song'});
       
