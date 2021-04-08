@@ -1,7 +1,5 @@
 import React, {useState, useEffect} from "react";
 import { View, StyleSheet, FlatList, Button, TextInput, Dimensions } from 'react-native';
-import AppLoading from 'expo-app-loading';
-import {useFonts} from 'expo-font';
 
 const width = Dimensions.get("window").width
 const height = Dimensions.get("window").height
@@ -68,23 +66,15 @@ function SearchScreen({ navigation }) {
       </Button>
     );
   };
-  let [fontsLoaded] = useFonts({
-    'Roboto-Regular': require('../../assets/fonts/Roboto-Regular.ttf'),
-    'Roboto-Black': require('../../assets/fonts/Roboto-Black.ttf'),
-  });
 
-  if (!fontsLoaded) {
-    return <AppLoading />;
-  } else {
-    return (
+  return (
     <View style={styles.containerWrapper}>
       <TextInput style={styles.searchInput} placeholder={'Search...'} placeholderTextColor="#ffffff" onChangeText={setQuery}/>
       <View style={styles.listWrapper}>
         <FlatList data={searchList} renderItem={ItemView} keyExtractor={(item) => item.id.toString()} />
       </View>
     </View>
-    )
-  }
+  )
 }
 
 const styles = StyleSheet.create({

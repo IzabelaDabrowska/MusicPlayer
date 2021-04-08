@@ -1,6 +1,6 @@
 import { LinearGradient } from "expo-linear-gradient";
 import React, {useState, useEffect, useRef} from "react";
-import { View, StyleSheet, Dimensions, Text, Image, ImageBackground } from 'react-native';
+import { View, StyleSheet, Dimensions, Text, Image, ImageBackground, FlatList } from 'react-native';
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { Entypo } from '@expo/vector-icons'; 
 
@@ -13,6 +13,7 @@ function SongScreen({ route }) {
   const [songTitle, setSongTitle] = useState("");
   const [songImage, setSongImage] = useState("");
   const [songArtist, setSongArtist] = useState("");
+  // const [relatedSongs, setRelatedSongs] = useState([]);
 
   const fetchSong = () => {
     let songs = [];
@@ -25,9 +26,11 @@ function SongScreen({ route }) {
     })
     .then(response => response.json())
     .then(json => {
-      setSongTitle(json.response.song.full_title);
+      setSongTitle(json.response.song.title);
       setSongImage(json.response.song.header_image_url);
       setSongArtist(json.response.song.primary_artist.name);
+      // setRelatedSongs(json.response.song.song_relationships);
+      // console.log(songs);
     })
     .catch(err => {
       console.error(err);
@@ -41,6 +44,17 @@ function SongScreen({ route }) {
       return;
     }
   })
+
+  // const songList = ({item}) => {
+  //   const songListTitle = item.song_relationships.songs.map(item => item.title);
+  //   const songImg = item.songs.map(item => item.song_art_image_url);
+  //   return (
+  //     <View style={styles.songList}>
+  //       <Image style={styles.songListImg} source={{uri:{songImg}}}/>
+  //       <Text style={styles.songListTitle}>{songListTitle}</Text>
+  //     </View>
+  //   )
+  // }
 
   return (
     <View style={styles.containerWrapper}>
@@ -68,6 +82,13 @@ function SongScreen({ route }) {
           </View>
           <Entypo name="dots-three-vertical" size={19} color="#757575" />
         </View>
+        {/* <FlatList
+            data={relatedSongs}
+            ListHeaderComponentStyle={{marginBottom:50}}
+            renderItem={songList}
+            // keyExtractor={(index, item) => item.id.toString()}
+          >
+        </FlatList> */}
       </LinearGradient>
     </ImageBackground>
   </View>
@@ -104,6 +125,7 @@ const styles = StyleSheet.create({
     color: '#ffffff',
     fontSize: 28,
     lineHeight: 33,
+    fontFamily: 'Roboto-Black',
     textAlign: 'center',
   },
   songImage: {
@@ -122,12 +144,14 @@ const styles = StyleSheet.create({
     color: '#ffffff',
     textAlign: 'center',
     textTransform: 'uppercase',
+    fontFamily: 'Abhaya-Libre',
   },
   artistName: {
     textTransform: 'uppercase',
     fontSize: 14,
     color: '#9CA5AF',
     paddingVertical: 18,
+    fontFamily: 'Roboto-Black',
   },
   wrapperBox: {
     flexDirection: 'row',
@@ -139,6 +163,7 @@ const styles = StyleSheet.create({
   downloadText: {
     fontSize: 16,
     color: '#ffffff',
+    fontFamily: 'Abhaya-Libre',
   },
   downloadCheckbox: {
     backgroundColor: '#454545',
@@ -147,6 +172,7 @@ const styles = StyleSheet.create({
     borderRadius: 12,
   },
   currentSongTitle: {
+    fontFamily: 'ABeeZee-Italic',
     fontSize: 16,
     color: '#ffffff',
   },
@@ -164,12 +190,31 @@ const styles = StyleSheet.create({
     width: 51,
     height: 13,
     textAlign: 'center',
+    fontFamily: 'ABeeZee-Italic',
   },
   currentsongArtist: {
     marginLeft: 10,
     fontSize: 12,
     color: '#636363',
+    fontFamily: 'ABeeZee-Italic',
   },
+  songList: {
+    width: width,
+    height: 71,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+    paddingHorizontal: 40,
+    paddingBottom: 50,
+  },
+  songListImg: {
+    width: 62,
+    height: 61,
+  },
+  songListTitle: {
+    color: '#ffffff',
+    fontSize: 14,
+  }
 });
 
 export default SongScreen;

@@ -1,8 +1,6 @@
 import { LinearGradient } from "expo-linear-gradient";
 import React, {useState, useEffect, useRef} from "react";
 import { View, StyleSheet, Dimensions, Text, FlatList, Image, ImageBackground } from 'react-native';
-import AppLoading from 'expo-app-loading';
-import {useFonts} from 'expo-font';
 
 const width = Dimensions.get("window").width;
 const height = Dimensions.get("window").height;
@@ -60,31 +58,22 @@ function ArtistScreen({ route }) {
     )
   }
 
-  let [fontsLoaded] = useFonts({
-    'Roboto-Black': require('../../assets/fonts/Roboto-Black.ttf'),
-    'Roboto-Italic': require('../../assets/fonts/Roboto-Italic.ttf'),
-  });
-
-  if (!fontsLoaded) {
-    return <AppLoading />;
-  } else {
-    return (
-      <View style={styles.containerWrapper}>
-        <ImageBackground source={{uri:artistImage}} style={styles.backgroundImg}>
-          <LinearGradient colors={['rgba(26, 23, 32, 0.77)', '#1A1720', '#1A1720']} style={styles.backgroundGradient}>
-            <FlatList
-              data={artistSongs}
-              ListHeaderComponent={listHeader(artistName, artistImage)}
-              ListHeaderComponentStyle={{marginBottom:50}}
-              renderItem={songList}
-              keyExtractor={(item) => item.id.toString()}
-            >
-            </FlatList>
-          </LinearGradient>
-        </ImageBackground>
-      </View>
-    )
-  }
+  return (
+    <View style={styles.containerWrapper}>
+      <ImageBackground source={{uri:artistImage}} style={styles.backgroundImg}>
+        <LinearGradient colors={['rgba(26, 23, 32, 0.77)', '#1A1720', '#1A1720']} style={styles.backgroundGradient}>
+          <FlatList
+            data={artistSongs}
+            ListHeaderComponent={listHeader(artistName, artistImage)}
+            ListHeaderComponentStyle={{marginBottom:50}}
+            renderItem={songList}
+            keyExtractor={(item) => item.id.toString()}
+          >
+          </FlatList>
+        </LinearGradient>
+      </ImageBackground>
+    </View>
+  )
 }
 
 const styles = StyleSheet.create({
