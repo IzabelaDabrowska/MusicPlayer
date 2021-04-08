@@ -30,7 +30,7 @@ function SearchScreen({ navigation }) {
     .then(response => response.json())
     .then(json => {
       Array.prototype.forEach.call(json.response.hits,(el) => {
-        songs.push({id:el.result.id, name:el.result.title, type:'song'});
+        songs.push({id:el.result.id, name:el.result.full_title, type:'song'});
       
         // add artist to the list if it's not already in there
         if (artists.filter(e => e.id === el.result.primary_artist.id).length === 0) {

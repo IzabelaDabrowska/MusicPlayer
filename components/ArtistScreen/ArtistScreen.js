@@ -27,7 +27,6 @@ function ArtistScreen({ route }) {
       setArtistSongs(json.response.songs);
       setArtistName(json.response.songs[0].primary_artist.name);
       setArtistImage(json.response.songs[0].primary_artist.image_url);
-      console.log(artistSongs)
     })
     .catch(err => {
       console.error(err);
