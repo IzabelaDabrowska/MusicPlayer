@@ -1,5 +1,5 @@
 import { LinearGradient } from "expo-linear-gradient";
-import React, {useState, useEffect, useRef} from "react";
+import React, {useState, useEffect} from "react";
 import { View, StyleSheet, Dimensions, Text, Image, ImageBackground, FlatList } from 'react-native';
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { Entypo } from '@expo/vector-icons'; 
@@ -14,10 +14,11 @@ function SongScreen({ route }) {
   const [songImage, setSongImage] = useState("");
   const [songArtist, setSongArtist] = useState("");
   const [relatedSongs, setRelatedSongs] = useState([]);
+  const [currentId, setCurrentId] = useState(songId);
 
   const fetchSong = () => {
     let songs = [];
-    fetch(`https://genius.p.rapidapi.com/songs/${songId}`, {
+    fetch(`https://genius.p.rapidapi.com/songs/${currentId}`, {
       "method": "GET",
       "headers": {
         "x-rapidapi-key": "27595eae91mshede4da0832066b8p162e0ajsn0420de00fe20",
@@ -40,14 +41,9 @@ function SongScreen({ route }) {
       console.error(err);
     });
   }
-  const isFirstRun = useRef(true);
   useEffect(() => {
-    if (isFirstRun.current) {
-      isFirstRun.current = false;
-      fetchSong();
-      return;
-    }
-  })
+    fetchSong();
+  },[currentId])
 
   const listHeader = (songImage, songTitle, songArtist) => {
     return (
@@ -83,10 +79,13 @@ function SongScreen({ route }) {
 
   const songList = ({item}) => {
     return (
-      <View style={styles.songList}>
-        <Image style={styles.songListImg} source={{uri:item.song_art_image_url}}/>
-        <Text style={styles.songListTitle}>{item.title}</Text>
-      </View>
+      <TouchableOpacity style={styles.songList} onPress={() => setCurrentId(item.id)}>
+        <View style={styles.songDetails}>
+          <Image style={styles.songListImg} source={{uri:item.song_art_image_url}}/>
+          <Text style={styles.songListTitle}>{item.title}</Text>
+        </View>
+        <Entypo name="dots-three-vertical" size={19} color="#757575" />
+      </TouchableOpacity>
     )
   }
 
@@ -140,6 +139,7 @@ const styles = StyleSheet.create({
     lineHeight: 33,
     fontFamily: 'Roboto-Black',
     textAlign: 'center',
+    paddingTop: 10,
   },
   songImage: {
     width: 166,
@@ -152,6 +152,8 @@ const styles = StyleSheet.create({
     borderColor: '#ffffff',
     borderWidth: 1,
     borderRadius: 14,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   saveButtonText: {
     color: '#ffffff',
@@ -232,8 +234,12 @@ const styles = StyleSheet.create({
     height: 71,
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'flex-start',
+    justifyContent: 'space-between',
     paddingHorizontal: 20,
+  },
+  songDetails: {
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   songListImg: {
     width: 62,

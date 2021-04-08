@@ -1,12 +1,13 @@
 import { LinearGradient } from "expo-linear-gradient";
 import React, {useState, useEffect, useRef} from "react";
 import { View, StyleSheet, Dimensions, Text, FlatList, Image, ImageBackground } from 'react-native';
+import { TouchableOpacity } from "react-native-gesture-handler";
 
 const width = Dimensions.get("window").width;
 const height = Dimensions.get("window").height;
 const halfHeight = Dimensions.get("window").height/2;
 
-function ArtistScreen({ route }) {
+function ArtistScreen({ route, navigation }) {
   const { artistId } = route.params;
   const [artistSongs, setArtistSongs] = useState([]);
   const [artistName, setArtistName] = useState("");
@@ -44,6 +45,7 @@ function ArtistScreen({ route }) {
     return (
       <View style={styles.headerBox}>
         <Text style={styles.artistName}>{artistName}</Text>
+        <Text style={styles.artistText}>Artist</Text>
         <Image source={{uri:artistImage}} style={styles.artistImage}/>
       </View>
     )
@@ -51,10 +53,10 @@ function ArtistScreen({ route }) {
 
   const songList = ({item}) => {
     return (
-      <View style={styles.songList}>
+      <TouchableOpacity style={styles.songList} onPress={() => navigation.navigate('SongScreen', {songId:item.id})}>
         <Image style={styles.songImg} source={{uri:item.header_image_url}}/>
         <Text style={styles.songTitle}>{(item.title)}</Text>
-      </View>
+      </TouchableOpacity>
     )
   }
 
@@ -65,7 +67,7 @@ function ArtistScreen({ route }) {
           <FlatList
             data={artistSongs}
             ListHeaderComponent={listHeader(artistName, artistImage)}
-            ListHeaderComponentStyle={{marginBottom:50}}
+            ListHeaderComponentStyle={{marginBottom:50, justifyContent: 'center', alignItems: 'center'}}
             renderItem={songList}
             keyExtractor={(item) => item.id.toString()}
           >
@@ -100,14 +102,21 @@ const styles = StyleSheet.create({
     height: halfHeight,
     alignItems: 'center',
     justifyContent: 'flex-end',
+    maxWidth: 350,
   },
   artistName: {    
+    textAlign: 'center',
     fontFamily: 'Roboto-Black',
     letterSpacing: 3,
     color: '#ffffff',
     fontSize: 64,
-    lineHeight: 75,
-    paddingBottom: 30,
+    lineHeight: 64,
+  },
+  artistText: {
+    fontSize: 18,
+    color: '#9CA5AF',
+    fontFamily: 'Roboto-Black',
+    paddingBottom: 10,
   },
   artistImage: {
     width: 166,
