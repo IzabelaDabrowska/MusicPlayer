@@ -1,16 +1,16 @@
-import React, {useState, useEffect} from "react";
+import React, {useState, useEffect} from 'react';
 import { View, StyleSheet, FlatList, TextInput, Dimensions, Text } from 'react-native';
-import { TouchableOpacity } from "react-native-gesture-handler";
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
-const width = Dimensions.get("window").width
-const height = Dimensions.get("window").height
+const width = Dimensions.get('window').width
+const height = Dimensions.get('window').height
 
 function SearchScreen({ navigation }) {
   const [query, setQuery] = useState('');
   const [searchList, setSearchList] = useState([]);
 
   useEffect(() => {
-    if (query === "") {
+    if (query === '') {
       return;
     }
     fetchSearch();
@@ -20,10 +20,10 @@ function SearchScreen({ navigation }) {
     let artists = [];
     let songs = [];
     fetch(`https://genius.p.rapidapi.com/search?q=${query}`, {
-      "method": "GET",
-      "headers": {
-        "x-rapidapi-key": "27595eae91mshede4da0832066b8p162e0ajsn0420de00fe20",
-        "x-rapidapi-host": "genius.p.rapidapi.com"
+      'method': 'GET',
+      'headers': {
+        'x-rapidapi-key': '27595eae91mshede4da0832066b8p162e0ajsn0420de00fe20',
+        'x-rapidapi-host': 'genius.p.rapidapi.com'
       }
     })
     .then(response => response.json())
@@ -66,7 +66,7 @@ function SearchScreen({ navigation }) {
 
   return (
     <View style={styles.containerWrapper}>
-      <TextInput style={styles.searchInput} placeholder={'Search...'} placeholderTextColor="#ffffff" onChangeText={setQuery}/>
+      <TextInput style={styles.searchInput} placeholder={'Search...'} placeholderTextColor='#ffffff' onChangeText={setQuery}/>
       <View style={styles.listWrapper}>
         <FlatList data={searchList} renderItem={ItemView} keyExtractor={(item) => item.id.toString()} />
       </View>
@@ -76,9 +76,10 @@ function SearchScreen({ navigation }) {
 
 const styles = StyleSheet.create({
   containerWrapper: {
+    flex: 1,
     width: width,
     height: height,
-    paddingVertical: 45,
+    paddingVertical: 65,
     backgroundColor: '#151520',
     alignItems: 'center',
     justifyContent: 'center',

@@ -1,24 +1,24 @@
-import { LinearGradient } from "expo-linear-gradient";
-import React, {useState, useEffect, useRef} from "react";
+import { LinearGradient } from 'expo-linear-gradient';
+import React, {useState, useEffect, useRef} from 'react';
 import { View, StyleSheet, Dimensions, Text, FlatList, Image, ImageBackground } from 'react-native';
-import { TouchableOpacity } from "react-native-gesture-handler";
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
-const width = Dimensions.get("window").width;
-const height = Dimensions.get("window").height;
-const halfHeight = Dimensions.get("window").height/2;
+const width = Dimensions.get('window').width;
+const height = Dimensions.get('window').height;
+const halfHeight = Dimensions.get('window').height/2;
 
 function ArtistScreen({ route, navigation }) {
   const { artistId } = route.params;
   const [artistSongs, setArtistSongs] = useState([]);
-  const [artistName, setArtistName] = useState("");
-  const [artistImage, setArtistImage] = useState("");
+  const [artistName, setArtistName] = useState('');
+  const [artistImage, setArtistImage] = useState('');
 
   const fetchArtist = () => {
     fetch(`https://genius.p.rapidapi.com/artists/${artistId}/songs`, {
-      "method": "GET",
-      "headers": {
-        "x-rapidapi-key": "27595eae91mshede4da0832066b8p162e0ajsn0420de00fe20",
-        "x-rapidapi-host": "genius.p.rapidapi.com"
+      'method': 'GET',
+      'headers': {
+        'x-rapidapi-key': '27595eae91mshede4da0832066b8p162e0ajsn0420de00fe20',
+        'x-rapidapi-host': 'genius.p.rapidapi.com'
       }
     })
     .then(response => response.json())
@@ -136,6 +136,7 @@ const styles = StyleSheet.create({
     marginLeft: 15,
     color: '#ffffff',
     fontSize: 14,
+    maxWidth: 200,
   },
   songImg: {
     height: 61,

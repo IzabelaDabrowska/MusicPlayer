@@ -3,6 +3,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import SearchScreen from './components/SearchScreen/SearchScreen';
 import ArtistScreen from './components/ArtistScreen/ArtistScreen';
 import SongScreen from './components/SongScreen/SongScreen';
+import { Entypo } from '@expo/vector-icons'; 
 
 const Stack = createStackNavigator();
 
@@ -37,6 +38,9 @@ function StackNavigator() {
         name="SongScreen" 
         component={SongScreen} 
         options={{
+          headerRight: () => (
+            <Entypo name='dots-three-vertical' size={22} color='#ffffff' style={{paddingRight: 10}} />
+          ),
           headerTransparent: true,
           headerTitle: false,
           headerBackTitleVisible: false,

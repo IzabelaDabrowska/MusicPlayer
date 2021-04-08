@@ -1,28 +1,28 @@
-import { LinearGradient } from "expo-linear-gradient";
-import React, {useState, useEffect} from "react";
+import { LinearGradient } from 'expo-linear-gradient';
+import React, {useState, useEffect} from 'react';
 import { View, StyleSheet, Dimensions, Text, Image, ImageBackground, FlatList } from 'react-native';
-import { TouchableOpacity } from "react-native-gesture-handler";
+import { TouchableOpacity } from 'react-native-gesture-handler';
 import { Entypo } from '@expo/vector-icons'; 
 
-const width = Dimensions.get("window").width;
-const height = Dimensions.get("window").height;
-const halfHeight = Dimensions.get("window").height/2;
+const width = Dimensions.get('window').width;
+const height = Dimensions.get('window').height;
+const halfHeight = Dimensions.get('window').height/2;
 
 function SongScreen({ route }) {
   const { songId } = route.params;
-  const [songTitle, setSongTitle] = useState("");
-  const [songImage, setSongImage] = useState("");
-  const [songArtist, setSongArtist] = useState("");
+  const [songTitle, setSongTitle] = useState('');
+  const [songImage, setSongImage] = useState('');
+  const [songArtist, setSongArtist] = useState('');
   const [relatedSongs, setRelatedSongs] = useState([]);
   const [currentId, setCurrentId] = useState(songId);
 
   const fetchSong = () => {
     let songs = [];
     fetch(`https://genius.p.rapidapi.com/songs/${currentId}`, {
-      "method": "GET",
-      "headers": {
-        "x-rapidapi-key": "27595eae91mshede4da0832066b8p162e0ajsn0420de00fe20",
-        "x-rapidapi-host": "genius.p.rapidapi.com"
+      'method': 'GET',
+      'headers': {
+        'x-rapidapi-key': '27595eae91mshede4da0832066b8p162e0ajsn0420de00fe20',
+        'x-rapidapi-host': 'genius.p.rapidapi.com'
       }
     })
     .then(response => response.json())
@@ -70,7 +70,7 @@ function SongScreen({ route }) {
               <Text style={styles.currentsongArtist}>{songArtist}</Text>
             </View>
           </View>
-          <Entypo name="dots-three-vertical" size={19} color="#757575" />
+          <Entypo name='dots-three-vertical' size={19} color='#757575' />
         </View>
         <Text style={styles.listHeaderName}>Related Songs</Text>
       </>
@@ -84,7 +84,7 @@ function SongScreen({ route }) {
           <Image style={styles.songListImg} source={{uri:item.song_art_image_url}}/>
           <Text style={styles.songListTitle}>{item.title}</Text>
         </View>
-        <Entypo name="dots-three-vertical" size={19} color="#757575" />
+        <Entypo name='dots-three-vertical' size={19} color='#757575' />
       </TouchableOpacity>
     )
   }
@@ -250,6 +250,7 @@ const styles = StyleSheet.create({
     marginLeft: 15,
     color: '#ffffff',
     fontSize: 14,
+    maxWidth: 200,
   }
 });
 

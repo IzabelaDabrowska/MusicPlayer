@@ -5,8 +5,8 @@ import AppLoading from 'expo-app-loading';
 import { useFonts } from 'expo-font';
 import StackNavigator from './StackNavigator';
 
-const width = Dimensions.get("window").width
-const height = Dimensions.get("window").height
+const width = Dimensions.get('window').width
+const height = Dimensions.get('window').height
 
 function App() {
 
