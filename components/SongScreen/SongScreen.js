@@ -62,7 +62,9 @@ function SongScreen({ route }) {
         </View>
         <View style={styles.wrapperBox}>
           <Text style={styles.downloadText}>Download</Text>
-          <View style={styles.downloadCheckbox}></View>
+          <View style={styles.downloadCheckboxMock}>
+            <View style={styles.checkboxMockDot}></View>
+          </View>
         </View>
         <View style={styles.wrapperBox}>
           <View style={styles.currentSongPlayer}>
@@ -176,11 +178,21 @@ const styles = StyleSheet.create({
     color: '#ffffff',
     fontFamily: 'Abhaya-Libre',
   },
-  downloadCheckbox: {
+  downloadCheckboxMock: {
+    position: 'relative',
     backgroundColor: '#454545',
     width: 39,
     height: 17,
     borderRadius: 12,
+  },
+  checkboxMockDot: {
+    position: 'absolute',
+    backgroundColor: '#888888',
+    width: 23,
+    height: 23,
+    borderRadius: 50,
+    top: -3,
+    left: 0,
   },
   currentSongTitle: {
     fontFamily: 'ABeeZee-Italic',
