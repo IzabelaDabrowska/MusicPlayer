@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from "react";
-import { View, StyleSheet, FlatList, Button, TextInput, Dimensions } from 'react-native';
+import { View, StyleSheet, FlatList, TextInput, Dimensions, Text } from 'react-native';
+import { TouchableOpacity } from "react-native-gesture-handler";
 
 const width = Dimensions.get("window").width
 const height = Dimensions.get("window").height
@@ -28,7 +29,7 @@ function SearchScreen({ navigation }) {
     .then(response => response.json())
     .then(json => {
       Array.prototype.forEach.call(json.response.hits,(el) => {
-        songs.push({id:el.result.id, name:el.result.full_title, type:'song'});
+        songs.push({id:el.result.id, name:el.result.title, type:'song'});
       
         // add artist to the list if it's not already in there
         if (artists.filter(e => e.id === el.result.primary_artist.id).length === 0) {
@@ -57,13 +58,9 @@ function SearchScreen({ navigation }) {
 
   const ItemView = ({ item }) => {
     return (
-      <Button 
-        style={styles.itemStyle}
-        title={item.name}
-        color='#ffffff'
-        onPress={() => navigateToScreen(item)}
-      >
-      </Button>
+      <TouchableOpacity style={styles.searchList} onPress={() => navigateToScreen(item)}>
+        <Text style={styles.searchListItem}>{item.name}</Text>
+      </TouchableOpacity>
     );
   };
 
@@ -94,7 +91,6 @@ const styles = StyleSheet.create({
     color: '#ffffff',
     width: 278,
     height: 48,
-    paddingVertical: 12,
     paddingHorizontal: 29,
     fontSize: 24,
     letterSpacing: 0.03,
@@ -102,12 +98,17 @@ const styles = StyleSheet.create({
   listWrapper: {
     paddingTop: 28,
   },
-  itemStyle: {
+  searchList: {
+    width: width,
+    paddingHorizontal: 20,
+  },
+  searchListItem: {
     fontSize: 20,
     textAlign: 'center',
-    lineHeight: 58,
+    color: '#ffffff',
+    lineHeight: 40,
     fontFamily: 'Roboto-Black',
-  },
+  }
 });
 
 export default SearchScreen;
