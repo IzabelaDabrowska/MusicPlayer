@@ -13,7 +13,7 @@ function SongScreen({ route }) {
   const [songTitle, setSongTitle] = useState("");
   const [songImage, setSongImage] = useState("");
   const [songArtist, setSongArtist] = useState("");
-  // const [relatedSongs, setRelatedSongs] = useState([]);
+  const [relatedSongs, setRelatedSongs] = useState([]);
 
   const fetchSong = () => {
     let songs = [];
@@ -29,8 +29,12 @@ function SongScreen({ route }) {
       setSongTitle(json.response.song.title);
       setSongImage(json.response.song.header_image_url);
       setSongArtist(json.response.song.primary_artist.name);
-      // setRelatedSongs(json.response.song.song_relationships);
-      // console.log(songs);
+
+      Array.prototype.forEach.call(json.response.song.song_relationships, (el) => {
+        songs = songs.concat(el.songs)
+      })
+
+      setRelatedSongs(songs);
     })
     .catch(err => {
       console.error(err);
@@ -45,23 +49,11 @@ function SongScreen({ route }) {
     }
   })
 
-  // const songList = ({item}) => {
-  //   const songListTitle = item.song_relationships.songs.map(item => item.title);
-  //   const songImg = item.songs.map(item => item.song_art_image_url);
-  //   return (
-  //     <View style={styles.songList}>
-  //       <Image style={styles.songListImg} source={{uri:{songImg}}}/>
-  //       <Text style={styles.songListTitle}>{songListTitle}</Text>
-  //     </View>
-  //   )
-  // }
-
-  return (
-    <View style={styles.containerWrapper}>
-    <ImageBackground source={{uri:songImage}} style={styles.backgroundImg}>
-      <LinearGradient colors={['rgba(26, 23, 32, 0.77)', '#1A1720', '#1A1720']} style={styles.backgroundGradient}>
+  const listHeader = (songImage, songTitle, songArtist) => {
+    return (
+      <>
         <View style={styles.headerBox}>
-          <Image source={{uri:songImage}} style={styles.songImage}/>
+          <Image style={styles.songImage} source={{uri:songImage}}/>
           <Text style={styles.songTitle}>{songTitle}</Text>
           <TouchableOpacity style={styles.saveButton}>
             <Text style={styles.saveButtonText}>Save</Text>
@@ -82,13 +74,32 @@ function SongScreen({ route }) {
           </View>
           <Entypo name="dots-three-vertical" size={19} color="#757575" />
         </View>
-        {/* <FlatList
+        <Text style={styles.listHeaderName}>Related Songs</Text>
+      </>
+    )
+  }
+
+  const songList = ({item}) => {
+    return (
+      <View style={styles.songList}>
+        <Image style={styles.songListImg} source={{uri:item.song_art_image_url}}/>
+        <Text style={styles.songListTitle}>{item.title}</Text>
+      </View>
+    )
+  }
+
+  return (
+    <View style={styles.containerWrapper}>
+    <ImageBackground source={{uri:songImage}} style={styles.backgroundImg}>
+      <LinearGradient colors={['rgba(26, 23, 32, 0.77)', '#1A1720', '#1A1720']} style={styles.backgroundGradient}>
+        <FlatList
             data={relatedSongs}
-            ListHeaderComponentStyle={{marginBottom:50}}
+            ListHeaderComponent={listHeader(songImage, songTitle, songArtist)}
+            ListHeaderComponentStyle={{marginBottom:10}}
             renderItem={songList}
-            // keyExtractor={(index, item) => item.id.toString()}
+            keyExtractor={(item) => item.id.toString()}
           >
-        </FlatList> */}
+        </FlatList>
       </LinearGradient>
     </ImageBackground>
   </View>
@@ -198,20 +209,27 @@ const styles = StyleSheet.create({
     color: '#636363',
     fontFamily: 'ABeeZee-Italic',
   },
+  listHeaderName: {
+    textAlign: 'center',
+    fontSize: 18,
+    color: '#ffffff',
+    fontFamily: 'Roboto-Black',
+  },
   songList: {
     width: width,
     height: 71,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'flex-start',
-    paddingHorizontal: 40,
-    paddingBottom: 50,
+    paddingHorizontal: 20,
   },
   songListImg: {
     width: 62,
     height: 61,
   },
   songListTitle: {
+    fontFamily: 'Roboto-Italic',
+    marginLeft: 15,
     color: '#ffffff',
     fontSize: 14,
   }
